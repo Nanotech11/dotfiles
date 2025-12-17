@@ -39,7 +39,6 @@ vim.o.autoread = true
 vim.o.autowrite = false
 vim.o.swapfile = false
 vim.o.undofile = true
-vim.o.undodir = vim.fn.expand('~/.vim/undodir')
 
 -- Behavior
 vim.o.autochdir = false
@@ -64,7 +63,6 @@ vim.pack.add({
     { src = 'https://github.com/neovim/nvim-lspconfig' },
     { src = 'https://github.com/Saghen/blink.cmp',                version = 'v1.8.0' },
     { src = 'https://github.com/windwp/nvim-autopairs' },
-    { src = 'https://github.com/stevearc/conform.nvim' },
     { src = 'https://github.com/catppuccin/nvim' },
     { src = 'https://github.com/navarasu/onedark.nvim' },
     { src = 'https://github.com/folke/tokyonight.nvim' },
@@ -91,6 +89,12 @@ require('nvim-autopairs').setup({
     disable_filetype = { 'TelescopePrompt', 'vim' },
     map_cr = true,
     check_ts = true,
+})
+require('nvim-tree').setup({
+    on_attach = function(bufnr)
+        local nvimtree_api = require('nvim-tree.api')
+        nvimtree_api.config.mappings.default_on_attach(bufnr)
+    end,
 })
 
 -- LSP
@@ -129,15 +133,8 @@ vim.api.nvim_create_autocmd('BufWritePre', {
         })
     end,
 })
-vim.lsp.config('ruff', {
-    init_options = {
-        settings = {
-            configuration = 'C:\\Users\\Noah\\AppData\\Roaming\\ruff\ruff.toml',
-            configurationPreference = 'filesystemFirst',
-        }
-    },
-})
 vim.diagnostic.config({
+	update_in_insert = true,
     float = {
         focusable = false,
         source = true,
@@ -169,9 +166,10 @@ require('blink.cmp').setup({
 
 -- Keymap
 vim.keymap.set('i', 'jk', '<C-[>')
-vim.keymap.set('n', '<leader>w', ':write<CR>')
-vim.keymap.set('n', '<leader>o', ':update<CR> :source<CR>')
+vim.keymap.set('n', '<leader>w', '<cmd>write<CR>')
+vim.keymap.set('n', '<leader>o', '<cmd>update | source<CR>')
 vim.keymap.set('n', '<leader>lf', vim.lsp.buf.format)
+vim.keymap.set('n', '<leader>ca', vim.lsp.buf.code_action)
 vim.keymap.set('v', 'J', ":m '>+1<CR>gv=gv")
 vim.keymap.set('v', 'K', ":m '<-2<CR>gv=gv")
 
@@ -180,3 +178,7 @@ vim.keymap.set('n', '<leader>ff', tele_builtin.find_files)
 vim.keymap.set('n', '<leader>fg', tele_builtin.live_grep)
 vim.keymap.set('n', '<leader>fb', tele_builtin.buffers)
 vim.keymap.set('n', '<leader>fh', tele_builtin.help_tags)
+
+local nvimtree_api = require('nvim-tree.api')
+vim.keymap.set('n', '<C-n>', nvimtree_api.tree.toggle)
+
