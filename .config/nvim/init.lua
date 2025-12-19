@@ -47,10 +47,6 @@ vim.o.modifiable = true
 vim.o.splitbelow = true
 vim.o.splitright = true
 vim.o.encoding = 'UTF-8'
-vim.o.foldexpr = 'v:lua.vim.treesitter.foldexpr()'
-vim.o.foldlevel = 99
-vim.o.foldlevelstart = 99
-vim.o.foldmethod = 'expr'
 vim.o.mouse = 'a'
 
 -- Plugins
@@ -113,35 +109,20 @@ require('gitsigns').setup({
         -- Actions
         map('n', '<leader>hs', gitsigns.stage_hunk)
         map('n', '<leader>hr', gitsigns.reset_hunk)
-
         map('v', '<leader>hs', function()
             gitsigns.stage_hunk({ vim.fn.line('.'), vim.fn.line('v') })
         end)
-
         map('v', '<leader>hr', function()
             gitsigns.reset_hunk({ vim.fn.line('.'), vim.fn.line('v') })
         end)
-
         map('n', '<leader>hS', gitsigns.stage_buffer)
         map('n', '<leader>hR', gitsigns.reset_buffer)
         map('n', '<leader>hp', gitsigns.preview_hunk)
         map('n', '<leader>hi', gitsigns.preview_hunk_inline)
-
-        map('n', '<leader>hb', function()
-            gitsigns.blame_line({ full = true })
-        end)
-
         map('n', '<leader>hd', gitsigns.diffthis)
-
         map('n', '<leader>hD', function()
             gitsigns.diffthis('~')
         end)
-
-        -- Toggles
-        map('n', '<leader>tw', gitsigns.toggle_word_diff)
-
-        -- Text object
-        map({ 'o', 'x' }, 'ih', gitsigns.select_hunk)
     end,
 })
 require('nvim-autopairs').setup({
@@ -170,9 +151,6 @@ vim.lsp.enable({
 vim.lsp.config('lua_ls', {
     settings = {
         Lua = {
-            diagnostics = {
-                globals = { 'vim' },
-            },
             workspace = {
                 library = vim.api.nvim_get_runtime_file('', true),
             },
@@ -229,9 +207,9 @@ require('blink.cmp').setup({
 -- Keymap
 vim.keymap.set('i', 'jk', '<C-[>')
 vim.keymap.set('n', '<leader>w', '<cmd>write<CR>')
+vim.keymap.set('n', '<leader>q', '<cmd>quit<CR>')
 vim.keymap.set('n', '<leader>o', '<cmd>update | source<CR>')
 vim.keymap.set('n', '<leader>lf', vim.lsp.buf.format)
-vim.keymap.set('n', '<leader>ca', vim.lsp.buf.code_action)
 vim.keymap.set('v', 'J', ":m '>+1<CR>gv=gv")
 vim.keymap.set('v', 'K', ":m '<-2<CR>gv=gv")
 
@@ -240,7 +218,11 @@ vim.keymap.set('n', '<leader>ff', tele_builtin.find_files)
 vim.keymap.set('n', '<leader>fg', tele_builtin.live_grep)
 vim.keymap.set('n', '<leader>fb', tele_builtin.buffers)
 vim.keymap.set('n', '<leader>fh', tele_builtin.help_tags)
+vim.keymap.set('n', '<leader>f/', tele_builtin.current_buffer_fuzzy_find)
+vim.keymap.set('n', '<leader>gr', tele_builtin.lsp_references)
+vim.keymap.set('n', '<leader>gd', tele_builtin.lsp_definitions)
+vim.keymap.set('n', '<leader>ds', tele_builtin.lsp_document_symbols)
+vim.keymap.set('n', '<leader>ws', tele_builtin.lsp_workspace_symbols)
 
 local nvimtree_api = require('nvim-tree.api')
 vim.keymap.set('n', '<C-n>', nvimtree_api.tree.toggle)
-
