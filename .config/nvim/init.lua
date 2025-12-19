@@ -55,35 +55,94 @@ vim.o.mouse = 'a'
 
 -- Plugins
 vim.pack.add({
+    { src = 'https://github.com/catppuccin/nvim' },
+    { src = 'https://github.com/folke/tokyonight.nvim' },
+    { src = 'https://github.com/hiphish/rainbow-delimiters.nvim' },
+    { src = 'https://github.com/lewis6991/gitsigns.nvim' },
+    { src = 'https://github.com/neovim/nvim-lspconfig' },
     { src = 'https://github.com/nvim-lua/plenary.nvim' },
     { src = 'https://github.com/nvim-telescope/telescope.nvim' },
     { src = 'https://github.com/nvim-tree/nvim-tree.lua' },
-    { src = 'https://github.com/stevearc/oil.nvim' },
     { src = 'https://github.com/nvim-treesitter/nvim-treesitter', build = ':TSUpdate' },
-    { src = 'https://github.com/neovim/nvim-lspconfig' },
-    { src = 'https://github.com/Saghen/blink.cmp',                version = 'v1.8.0' },
+    { src = 'https://github.com/rafamadriz/friendly-snippets' },
+    { src = 'https://github.com/rbong/vim-flog' },
+    { src = 'https://github.com/saghen/blink.cmp',                version = vim.version.range('1.*') },
+    { src = 'https://github.com/stevearc/oil.nvim' },
+    { src = 'https://github.com/tpope/vim-fugitive' },
     { src = 'https://github.com/windwp/nvim-autopairs' },
-    { src = 'https://github.com/catppuccin/nvim' },
-    { src = 'https://github.com/navarasu/onedark.nvim' },
-    { src = 'https://github.com/folke/tokyonight.nvim' },
-    { src = 'https://github.com/Mofiqul/vscode.nvim' },
 })
 vim.cmd.colorscheme('catppuccin')
----@diagnostic disable-next-line: missing-fields
-require('nvim-treesitter.configs').setup({
-    ensure_installed = {
-        'lua',
-        'python',
-        'c',
-        'java',
-        'rust',
-        'go',
-        'zig',
-    },
-    highlight = {
-        enable = true,
-        additional_vim_regex_highlighting = false,
-    },
+vim.o.statusline = '%<%f %h%m%r%{FugitiveStatusline()}%=%-14.(%l,%c%V%) %P'
+require('nvim-treesitter').install({
+    'lua',
+    'python',
+    'c',
+    'java',
+    'rust',
+    'go',
+    'zig',
+})
+require('gitsigns').setup({
+    current_line_blame = true,
+    on_attach = function(bufnr)
+        local gitsigns = require('gitsigns')
+
+        local function map(mode, l, r, opts)
+            opts = opts or {}
+            opts.buffer = bufnr
+            vim.keymap.set(mode, l, r, opts)
+        end
+
+        -- Navigation
+        map('n', ']c', function()
+            if vim.wo.diff then
+                vim.cmd.normal({ ']c', bang = true })
+            else
+                gitsigns.nav_hunk('next')
+            end
+        end)
+
+        map('n', '[c', function()
+            if vim.wo.diff then
+                vim.cmd.normal({ '[c', bang = true })
+            else
+                gitsigns.nav_hunk('prev')
+            end
+        end)
+
+        -- Actions
+        map('n', '<leader>hs', gitsigns.stage_hunk)
+        map('n', '<leader>hr', gitsigns.reset_hunk)
+
+        map('v', '<leader>hs', function()
+            gitsigns.stage_hunk({ vim.fn.line('.'), vim.fn.line('v') })
+        end)
+
+        map('v', '<leader>hr', function()
+            gitsigns.reset_hunk({ vim.fn.line('.'), vim.fn.line('v') })
+        end)
+
+        map('n', '<leader>hS', gitsigns.stage_buffer)
+        map('n', '<leader>hR', gitsigns.reset_buffer)
+        map('n', '<leader>hp', gitsigns.preview_hunk)
+        map('n', '<leader>hi', gitsigns.preview_hunk_inline)
+
+        map('n', '<leader>hb', function()
+            gitsigns.blame_line({ full = true })
+        end)
+
+        map('n', '<leader>hd', gitsigns.diffthis)
+
+        map('n', '<leader>hD', function()
+            gitsigns.diffthis('~')
+        end)
+
+        -- Toggles
+        map('n', '<leader>tw', gitsigns.toggle_word_diff)
+
+        -- Text object
+        map({ 'o', 'x' }, 'ih', gitsigns.select_hunk)
+    end,
 })
 require('nvim-autopairs').setup({
     disable_filetype = { 'TelescopePrompt', 'vim' },
@@ -112,11 +171,14 @@ vim.lsp.config('lua_ls', {
     settings = {
         Lua = {
             diagnostics = {
-                globals = { 'vim' }
+                globals = { 'vim' },
             },
             workspace = {
                 library = vim.api.nvim_get_runtime_file('', true),
-            }
+            },
+            telemetry = {
+                enable = false,
+            },
         }
     }
 })
@@ -134,13 +196,13 @@ vim.api.nvim_create_autocmd('BufWritePre', {
     end,
 })
 vim.diagnostic.config({
-	update_in_insert = true,
+    update_in_insert = true,
     float = {
         focusable = false,
         source = true,
     },
 })
-vim.api.nvim_create_autocmd({ 'CursorMoved' }, {
+vim.api.nvim_create_autocmd({ 'CursorMoved', 'InsertLeave' }, {
     callback = function()
         vim.diagnostic.open_float(nil, {
             scope = 'line',
