@@ -58,17 +58,21 @@ vim.pack.add({
     { src = 'https://github.com/neovim/nvim-lspconfig' },
     { src = 'https://github.com/nvim-lua/plenary.nvim' },
     { src = 'https://github.com/nvim-telescope/telescope.nvim' },
+    { src = 'https://github.com/nvim-telescope/telescope-frecency.nvim' },
+    { src = 'https://github.com/nvim-telescope/telescope-fzf-native.nvim' },
     { src = 'https://github.com/nvim-tree/nvim-tree.lua' },
-    { src = 'https://github.com/nvim-treesitter/nvim-treesitter', build = ':TSUpdate' },
+    { src = 'https://github.com/nvim-treesitter/nvim-treesitter',         build = ':TSUpdate' },
     { src = 'https://github.com/rafamadriz/friendly-snippets' },
     { src = 'https://github.com/rbong/vim-flog' },
-    { src = 'https://github.com/saghen/blink.cmp',                version = vim.version.range('1.*') },
-    { src = 'https://github.com/stevearc/oil.nvim' },
+    { src = 'https://github.com/saghen/blink.cmp',                        version = vim.version.range('1.*') },
     { src = 'https://github.com/tpope/vim-fugitive' },
     { src = 'https://github.com/windwp/nvim-autopairs' },
 })
-vim.cmd.colorscheme('catppuccin')
+vim.cmd.colorscheme('tokyonight')
 vim.o.statusline = '%<%f %h%m%r%{FugitiveStatusline()}%=%-14.(%l,%c%V%) %P'
+require('telescope').setup()
+require('telescope').load_extension('frecency')
+require('telescope').load_extension('fzf')
 require('nvim-treesitter').install({
     'lua',
     'python',
@@ -78,11 +82,15 @@ require('nvim-treesitter').install({
     'go',
     'zig',
 })
+vim.api.nvim_create_autocmd('FileType', {
+    callback = function()
+        pcall(vim.treesitter.start)
+    end,
+})
 require('gitsigns').setup({
     current_line_blame = true,
     on_attach = function(bufnr)
-        local gitsigns = require('gitsigns')
-
+        local gs = require('gitsigns')
         local function map(mode, l, r, opts)
             opts = opts or {}
             opts.buffer = bufnr
@@ -94,34 +102,33 @@ require('gitsigns').setup({
             if vim.wo.diff then
                 vim.cmd.normal({ ']c', bang = true })
             else
-                gitsigns.nav_hunk('next')
+                gs.nav_hunk('next')
             end
         end)
-
         map('n', '[c', function()
             if vim.wo.diff then
                 vim.cmd.normal({ '[c', bang = true })
             else
-                gitsigns.nav_hunk('prev')
+                gs.nav_hunk('prev')
             end
         end)
 
         -- Actions
-        map('n', '<leader>hs', gitsigns.stage_hunk)
-        map('n', '<leader>hr', gitsigns.reset_hunk)
+        map('n', '<leader>hs', gs.stage_hunk)
+        map('n', '<leader>hr', gs.reset_hunk)
         map('v', '<leader>hs', function()
-            gitsigns.stage_hunk({ vim.fn.line('.'), vim.fn.line('v') })
+            gs.stage_hunk({ vim.fn.line('.'), vim.fn.line('v') })
         end)
         map('v', '<leader>hr', function()
-            gitsigns.reset_hunk({ vim.fn.line('.'), vim.fn.line('v') })
+            gs.reset_hunk({ vim.fn.line('.'), vim.fn.line('v') })
         end)
-        map('n', '<leader>hS', gitsigns.stage_buffer)
-        map('n', '<leader>hR', gitsigns.reset_buffer)
-        map('n', '<leader>hp', gitsigns.preview_hunk)
-        map('n', '<leader>hi', gitsigns.preview_hunk_inline)
-        map('n', '<leader>hd', gitsigns.diffthis)
+        map('n', '<leader>hS', gs.stage_buffer)
+        map('n', '<leader>hR', gs.reset_buffer)
+        map('n', '<leader>hp', gs.preview_hunk)
+        map('n', '<leader>hi', gs.preview_hunk_inline)
+        map('n', '<leader>hd', gs.diffthis)
         map('n', '<leader>hD', function()
-            gitsigns.diffthis('~')
+            gs.diffthis('~')
         end)
     end,
 })
@@ -165,7 +172,6 @@ vim.api.nvim_create_autocmd('BufWritePre', {
     pattern = '*.py',
     callback = function()
         vim.lsp.buf.code_action({
-            ---@diagnostic disable-next-line: missing-fields
             context = {
                 only = { 'source.organizeImports' },
             },
