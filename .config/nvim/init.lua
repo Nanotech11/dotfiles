@@ -81,6 +81,13 @@ require('nvim-treesitter').install({
     'rust',
     'go',
     'zig',
+    'haskell',
+    'ocaml',
+    'bash',
+    'json',
+    'toml',
+    'yaml',
+    'xml',
 })
 vim.api.nvim_create_autocmd('FileType', {
     callback = function()
@@ -172,6 +179,7 @@ vim.api.nvim_create_autocmd('BufWritePre', {
     pattern = '*.py',
     callback = function()
         vim.lsp.buf.code_action({
+        --- @diagnostic disable-next-line: missing-fields
             context = {
                 only = { 'source.organizeImports' },
             },
