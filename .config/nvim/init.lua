@@ -51,7 +51,6 @@ vim.o.mouse = 'a'
 
 -- Plugins
 vim.pack.add({
-    { src = 'https://github.com/catppuccin/nvim' },
     { src = 'https://github.com/folke/tokyonight.nvim' },
     { src = 'https://github.com/hiphish/rainbow-delimiters.nvim' },
     { src = 'https://github.com/lewis6991/gitsigns.nvim' },
@@ -68,7 +67,7 @@ vim.pack.add({
     { src = 'https://github.com/tpope/vim-fugitive' },
     { src = 'https://github.com/windwp/nvim-autopairs' },
 })
-vim.cmd.colorscheme('tokyonight')
+vim.cmd.colorscheme('tokyonight-storm')
 vim.o.statusline = '%<%f %h%m%r%{FugitiveStatusline()}%=%-14.(%l,%c%V%) %P'
 require('telescope').setup()
 require('telescope').load_extension('frecency')
