@@ -87,12 +87,19 @@ require('nvim-treesitter').install({
     'toml',
     'yaml',
     'xml',
+    'asm',
 })
 vim.api.nvim_create_autocmd('FileType', {
     callback = function()
         pcall(vim.treesitter.start)
     end,
 })
+vim.filetype.add({
+    extension = {
+        nasm = 'asm',
+    },
+})
+vim.treesitter.language.register('asm', 'asm')
 require('gitsigns').setup({
     current_line_blame = true,
     on_attach = function(bufnr)
@@ -160,6 +167,7 @@ vim.lsp.enable({
     'rust_analyzer',
     'gopls',
     'zls',
+    'asm_lsp',
 })
 vim.lsp.config('lua_ls', {
     settings = {
