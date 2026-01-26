@@ -13,29 +13,24 @@ order += "tztime local"
 
 # IPv6 configuration
 ipv6 {
-    format_up = "IPv6: %ip"
+    format_up = "IPv6: %ip (%speed)"
     format_down = "IPv6: down"
 }
 
 # Network (IPv4)
 ethernet _first_ {
-    format_up = "E: %ip"
+    format_up = "E: %ip (%speed)"
     format_down = "E: down"
 }
 
-# Disk usage in GB Used / GB Total
 disk "/" {
-    format = "Disk: %used / %total"
+    format = "Disk: %percentage_used (%used / %total)"
 }
 
-# Memory usage in GB Used / GB Total
 memory {
-    format = "Mem: %used / %total"
-    threshold_degraded = "10%"
-    format_degraded = "MEMORY LOW: %free"
+    format = "Mem: %percentage_used (%used / %total)"
 }
 
-# CPU Utilization
 cpu_usage {
     format = "CPU: %usage"
 }
