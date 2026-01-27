@@ -3,21 +3,21 @@ general {
     interval = 1
 }
 
-order += 'ipv6'
 order += 'ethernet _first_'
+order += 'ipv6'
 order += 'disk /'
 order += 'memory'
 order += 'cpu_usage'
 order += 'tztime local'
 
+ethernet _first_ {
+    format_up = 'Net: %ip (%speed)'
+    format_down = 'Net: down'
+}
+
 ipv6 {
     format_up = 'IPv6: %ip'
     format_down = 'IPv6: down'
-}
-
-ethernet _first_ {
-    format_up = 'E: %ip (%speed)'
-    format_down = 'E: down'
 }
 
 disk '/' {
