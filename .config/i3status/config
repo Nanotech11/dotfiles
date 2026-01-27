@@ -3,39 +3,36 @@ general {
     interval = 1
 }
 
-# The order defines what appears from left to right on your bar
-order += "ipv6"
-order += "ethernet _first_"
-order += "disk /"
-order += "memory"
-order += "cpu_usage"
-order += "tztime local"
+order += 'ipv6'
+order += 'ethernet _first_'
+order += 'disk /'
+order += 'memory'
+order += 'cpu_usage'
+order += 'tztime local'
 
-# IPv6 configuration
 ipv6 {
-    format_up = "IPv6: %ip (%speed)"
-    format_down = "IPv6: down"
+    format_up = 'IPv6: %ip'
+    format_down = 'IPv6: down'
 }
 
-# Network (IPv4)
 ethernet _first_ {
-    format_up = "E: %ip (%speed)"
-    format_down = "E: down"
+    format_up = 'E: %ip (%speed)'
+    format_down = 'E: down'
 }
 
-disk "/" {
-    format = "Disk: %percentage_used (%used / %total)"
+disk '/' {
+    format = 'Disk: %percentage_used (%used / %total)'
 }
 
 memory {
-    format = "Mem: %percentage_used (%used / %total)"
+    format = 'Mem: %percentage_used (%used / %total)'
 }
 
 cpu_usage {
-    format = "CPU: %usage"
+    format = 'CPU: %usage'
 }
 
 tztime local {
-    format = "%Y-%m-%d %H:%M:%S"
+    format = '%Y-%m-%d %H:%M:%S'
 }
 
