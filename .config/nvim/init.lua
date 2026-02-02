@@ -88,6 +88,7 @@ require('nvim-treesitter').install({
     'yaml',
     'xml',
     'asm',
+    'make',
 })
 vim.api.nvim_create_autocmd('FileType', {
     callback = function()
