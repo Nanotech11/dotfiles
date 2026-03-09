@@ -14,7 +14,6 @@ vim.o.sidescrolloff = 8
 vim.o.autoindent = true
 vim.o.expandtab = true
 vim.o.smarttab = true
-vim.o.smartindent = true
 vim.o.shiftwidth = 4
 vim.o.softtabstop = 4
 vim.o.tabstop = 4
@@ -159,6 +158,18 @@ require('nvim-tree').setup({
 })
 
 -- LSP
+vim.lsp.config('lua_ls', {
+    settings = {
+        Lua = {
+            workspace = {
+                library = vim.api.nvim_get_runtime_file('', true),
+            },
+            telemetry = {
+                enable = false,
+            },
+        },
+    },
+})
 vim.lsp.enable({
     'lua_ls',
     'pyright',
@@ -170,24 +181,11 @@ vim.lsp.enable({
     'zls',
     'asm_lsp',
 })
-vim.lsp.config('lua_ls', {
-    settings = {
-        Lua = {
-            workspace = {
-                library = vim.api.nvim_get_runtime_file('', true),
-            },
-            telemetry = {
-                enable = false,
-            },
-        }
-    }
-})
 vim.api.nvim_create_autocmd('BufWritePre', {
     group = vim.api.nvim_create_augroup('RuffAutoOrganize', { clear = true }),
     pattern = '*.py',
     callback = function()
         vim.lsp.buf.code_action({
-        --- @diagnostic disable-next-line: missing-fields
             context = {
                 only = { 'source.organizeImports' },
             },
