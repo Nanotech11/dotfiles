@@ -53,6 +53,7 @@ vim.pack.add({
     { src = 'https://github.com/folke/tokyonight.nvim' },
     { src = 'https://github.com/hiphish/rainbow-delimiters.nvim' },
     { src = 'https://github.com/lewis6991/gitsigns.nvim' },
+    { src = 'https://github.com/mason-org/mason.nvim' },
     { src = 'https://github.com/neovim/nvim-lspconfig' },
     { src = 'https://github.com/nvim-lua/plenary.nvim' },
     { src = 'https://github.com/nvim-telescope/telescope.nvim' },
@@ -156,6 +157,7 @@ require('nvim-tree').setup({
         nvimtree_api.config.mappings.default_on_attach(bufnr)
     end,
 })
+require("mason").setup()
 
 -- LSP
 vim.lsp.config('lua_ls', {
@@ -171,21 +173,23 @@ vim.lsp.config('lua_ls', {
     },
 })
 vim.lsp.enable({
+    'asm_lsp',
+    'clangd',
+    'gopls',
+    'java_language_server',
     'lua_ls',
     'pyright',
     'ruff',
-    'clangd',
-    'java_language_server',
     'rust_analyzer',
-    'gopls',
+    'ty',
     'zls',
-    'asm_lsp',
 })
 vim.api.nvim_create_autocmd('BufWritePre', {
     group = vim.api.nvim_create_augroup('RuffAutoOrganize', { clear = true }),
     pattern = '*.py',
     callback = function()
         vim.lsp.buf.code_action({
+            --- @diagnostic disable-next-line: missing-fields
             context = {
                 only = { 'source.organizeImports' },
             },
