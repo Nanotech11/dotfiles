@@ -72,7 +72,7 @@ vim.o.statusline = '%<%f %h%m%r%{FugitiveStatusline()}%=%-14.(%l,%c%V%) %P'
 require('telescope').setup()
 require('telescope').load_extension('frecency')
 require('telescope').load_extension('fzf')
-require('nvim-treesitter').install({
+local ts_langs = {
     'lua',
     'python',
     'c',
@@ -89,7 +89,8 @@ require('nvim-treesitter').install({
     'xml',
     'asm',
     'make',
-})
+}
+require('nvim-treesitter').install(ts_langs)
 vim.api.nvim_create_autocmd('FileType', {
     callback = function()
         pcall(vim.treesitter.start)
@@ -101,6 +102,10 @@ vim.filetype.add({
     },
 })
 vim.treesitter.language.register('asm', 'asm')
+---@type rainbow_delimiters.config
+vim.g.rainbow_delimiters = {
+    whitelist = ts_langs,
+}
 require('gitsigns').setup({
     current_line_blame = true,
     on_attach = function(bufnr)
@@ -154,7 +159,7 @@ require('nvim-autopairs').setup({
 require('nvim-tree').setup({
     on_attach = function(bufnr)
         local nvimtree_api = require('nvim-tree.api')
-        nvimtree_api.config.mappings.default_on_attach(bufnr)
+        nvimtree_api.map.on_attach.default(bufnr)
     end,
 })
 require("mason").setup()
@@ -174,11 +179,11 @@ vim.lsp.config('lua_ls', {
 })
 vim.lsp.enable({
     'asm_lsp',
+    'basedpyright',
     'clangd',
     'gopls',
     'java_language_server',
     'lua_ls',
-    'pyright',
     'ruff',
     'rust_analyzer',
     'ty',
