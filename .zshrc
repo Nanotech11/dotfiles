@@ -1,5 +1,5 @@
 export PATH=/snap/nvim/current/usr/bin:$PATH
-export PATH=$PATH:$HOME/.local/bin
+export PATH=$HOME/.local/bin:$PATH
 
 HISTFILE=$HOME/.zsh_history
 HISTSIZE=10000
@@ -55,3 +55,6 @@ alias 'cd..'='cd ..'
 alias 'history'='history 0'
 alias gdb-pwn='gdb -x ~/.gdb/pwndbg/gdbinit.py'
 alias gdb-gef='gdb -x ~/.gdb/gef/gef.py'
+
+source /usr/share/zsh-autosuggestions/zsh-autosuggestions.zsh
+source /usr/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
