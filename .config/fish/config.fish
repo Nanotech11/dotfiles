@@ -1,6 +1,8 @@
 fish_add_path /snap/nvim/current/usr/bin
 fish_add_path ~/.local/bin
 
+set -g fish_greeting
+
 zoxide init fish --cmd cd | source
 
 abbr -a c clear
