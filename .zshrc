@@ -6,18 +6,19 @@ HISTSIZE=10000
 SAVEHIST=$HISTSIZE
 HISTDUP=erase
 
-setopt autocd
-setopt extendedglob
-setopt nomatch
-setopt notify
-setopt appendhistory
-setopt sharehistory
-setopt hist_ignore_space
+setopt auto_cd
+setopt append_history
+setopt extended_glob
+setopt hist_expire_dups_first
+setopt hist_find_no_dups
 setopt hist_ignore_all_dups
 setopt hist_ignore_dups
+setopt hist_ignore_space
 setopt hist_save_no_dups
-setopt hist_find_no_dups
-setopt hist_expire_dups_first
+setopt ignore_eof
+setopt nomatch
+setopt notify
+setopt share_history
 
 bindkey -v
 bindkey -M viins 'jk' vi-cmd-mode
@@ -42,19 +43,19 @@ python_venv() {
 }
 add-zsh-hook chpwd python_venv
 
-alias 'ls'='eza -F'
-alias 'll'='eza -laF'
-alias 'vim'='nvim'
 alias 'c'='clear'
-alias 'sudo'='sudo '
-alias 'grep'='rg'
 alias 'cat'='batcat'
-alias 'find'='fdfind'
-alias 'python'='python3'
 alias 'cd..'='cd ..'
+alias 'find'='fdfind'
+alias 'gdb-gef'='gdb -x ~/.gdb/gef/gef.py'
+alias 'gdb-pwn'='gdb -x ~/.gdb/pwndbg/gdbinit.py'
+alias 'grep'='rg'
 alias 'history'='history 0'
-alias gdb-pwn='gdb -x ~/.gdb/pwndbg/gdbinit.py'
-alias gdb-gef='gdb -x ~/.gdb/gef/gef.py'
+alias 'll'='eza -laF'
+alias 'ls'='eza -F'
+alias 'python'='python3'
+alias 'sudo'='sudo '
+alias 'vim'='nvim'
 
 source /usr/share/zsh-autosuggestions/zsh-autosuggestions.zsh
 source /usr/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh

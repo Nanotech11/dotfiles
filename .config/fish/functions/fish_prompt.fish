@@ -14,5 +14,4 @@ function fish_prompt
     end
 
     echo -n -e "\n> "
-    set_color normal
 end

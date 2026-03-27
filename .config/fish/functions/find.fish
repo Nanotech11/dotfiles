@@ -1,3 +1,3 @@
 function find --wraps=fdfind
-    find $argv
+    fdfind $argv
 end

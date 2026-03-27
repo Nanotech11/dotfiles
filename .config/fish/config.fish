@@ -7,5 +7,5 @@ zoxide init fish --cmd cd | source
 
 abbr -a c clear
 abbr -a cd.. cd ..
-abbr -a gdb-pwn gdb -x ~/.gdb/pwndbg/gdbinit.py
 abbr -a gdb-gef gdb -x ~/.gdb/gef/gef.py
+abbr -a gdb-pwn gdb -x ~/.gdb/pwndbg/gdbinit.py
