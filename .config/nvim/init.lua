@@ -1,3 +1,5 @@
+vim.loader.enable()
+
 vim.g.loaded_netrw = 1
 vim.g.loaded_netrwPlugin = 1
 vim.g.mapleader = ' '
@@ -49,46 +51,59 @@ vim.o.encoding = 'UTF-8'
 vim.o.mouse = 'a'
 
 -- Plugins
+vim.api.nvim_create_autocmd('PackChanged', {
+    callback = function(ev)
+        local name, kind = ev.data.spec.name, ev.data.kind
+        if name == 'nvim-treesitter' and kind == 'update' then
+            if not ev.data.active then vim.cmd.packadd('nvim-treesitter') end
+            vim.cmd('TSUpdate')
+        end
+    end
+})
+
 vim.pack.add({
+    { src = 'https://github.com/folke/snacks.nvim' },
     { src = 'https://github.com/folke/tokyonight.nvim' },
     { src = 'https://github.com/hiphish/rainbow-delimiters.nvim' },
     { src = 'https://github.com/lewis6991/gitsigns.nvim' },
     { src = 'https://github.com/mason-org/mason.nvim' },
     { src = 'https://github.com/neovim/nvim-lspconfig' },
     { src = 'https://github.com/nvim-lua/plenary.nvim' },
+    { src = 'https://github.com/nvim-mini/mini.nvim' },
     { src = 'https://github.com/nvim-telescope/telescope.nvim' },
     { src = 'https://github.com/nvim-telescope/telescope-frecency.nvim' },
     { src = 'https://github.com/nvim-telescope/telescope-fzf-native.nvim' },
     { src = 'https://github.com/nvim-tree/nvim-tree.lua' },
-    { src = 'https://github.com/nvim-treesitter/nvim-treesitter',         build = ':TSUpdate' },
+    { src = 'https://github.com/nvim-treesitter/nvim-treesitter' },
     { src = 'https://github.com/rafamadriz/friendly-snippets' },
     { src = 'https://github.com/rbong/vim-flog' },
     { src = 'https://github.com/saghen/blink.cmp',                        version = vim.version.range('1.*') },
     { src = 'https://github.com/tpope/vim-fugitive' },
-    { src = 'https://github.com/windwp/nvim-autopairs' },
 })
 vim.cmd.colorscheme('tokyonight-storm')
 vim.o.statusline = '%<%f %h%m%r%{FugitiveStatusline()}%=%-14.(%l,%c%V%) %P'
+require('mason').setup()
+require('mini.pairs').setup()
 require('telescope').setup()
 require('telescope').load_extension('frecency')
 require('telescope').load_extension('fzf')
 local ts_langs = {
-    'lua',
-    'python',
-    'c',
-    'java',
-    'rust',
-    'go',
-    'zig',
-    'haskell',
-    'ocaml',
-    'bash',
-    'json',
-    'toml',
-    'yaml',
-    'xml',
     'asm',
+    'bash',
+    'c',
+    'go',
+    'haskell',
+    'java',
+    'json',
+    'lua',
     'make',
+    'ocaml',
+    'python',
+    'rust',
+    'toml',
+    'xml',
+    'yaml',
+    'zig',
 }
 require('nvim-treesitter').install(ts_langs)
 vim.api.nvim_create_autocmd('FileType', {
@@ -151,18 +166,12 @@ require('gitsigns').setup({
         end)
     end,
 })
-require('nvim-autopairs').setup({
-    disable_filetype = { 'TelescopePrompt', 'vim' },
-    map_cr = true,
-    check_ts = true,
-})
 require('nvim-tree').setup({
     on_attach = function(bufnr)
         local nvimtree_api = require('nvim-tree.api')
         nvimtree_api.map.on_attach.default(bufnr)
     end,
 })
-require("mason").setup()
 
 -- LSP
 vim.lsp.config('lua_ls', {
