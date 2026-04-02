@@ -68,25 +68,48 @@ vim.pack.add({
     { src = 'https://github.com/lewis6991/gitsigns.nvim' },
     { src = 'https://github.com/mason-org/mason.nvim' },
     { src = 'https://github.com/neovim/nvim-lspconfig' },
-    { src = 'https://github.com/nvim-lua/plenary.nvim' },
     { src = 'https://github.com/nvim-mini/mini.nvim' },
-    { src = 'https://github.com/nvim-telescope/telescope.nvim' },
-    { src = 'https://github.com/nvim-telescope/telescope-frecency.nvim' },
-    { src = 'https://github.com/nvim-telescope/telescope-fzf-native.nvim' },
     { src = 'https://github.com/nvim-tree/nvim-tree.lua' },
     { src = 'https://github.com/nvim-treesitter/nvim-treesitter' },
     { src = 'https://github.com/rafamadriz/friendly-snippets' },
     { src = 'https://github.com/rbong/vim-flog' },
-    { src = 'https://github.com/saghen/blink.cmp',                        version = vim.version.range('1.*') },
+    { src = 'https://github.com/saghen/blink.cmp',               version = vim.version.range('1.*') },
     { src = 'https://github.com/tpope/vim-fugitive' },
 })
 vim.cmd.colorscheme('tokyonight-storm')
 vim.o.statusline = '%<%f %h%m%r%{FugitiveStatusline()}%=%-14.(%l,%c%V%) %P'
 require('mason').setup()
 require('mini.pairs').setup()
-require('telescope').setup()
-require('telescope').load_extension('frecency')
-require('telescope').load_extension('fzf')
+require('mini.icons').setup()
+require('snacks').setup({
+    indent = { enabled = true },
+    picker = {
+        matcher = {
+            frecency = true,
+            sort_empty = true,
+        },
+        sources = {
+            files = {
+                hidden = true,
+                ignored = true,
+                follow = true,
+                exclude = {
+                    "**/.git/*",
+                    "**/.venv/*",
+                },
+            },
+            grep = {
+                hidden = true,
+                ignored = true,
+                follow = true,
+                exclude = {
+                    "**/.git/*",
+                    "**/.venv/*",
+                },
+            },
+        },
+    },
+})
 local ts_langs = {
     'asm',
     'bash',
@@ -97,7 +120,6 @@ local ts_langs = {
     'json',
     'lua',
     'make',
-    'ocaml',
     'python',
     'rust',
     'toml',
@@ -251,16 +273,16 @@ vim.keymap.set('n', '<leader>lf', vim.lsp.buf.format)
 vim.keymap.set('v', 'J', ":m '>+1<CR>gv=gv")
 vim.keymap.set('v', 'K', ":m '<-2<CR>gv=gv")
 
-local tele_builtin = require('telescope.builtin')
-vim.keymap.set('n', '<leader>ff', tele_builtin.find_files)
-vim.keymap.set('n', '<leader>fg', tele_builtin.live_grep)
-vim.keymap.set('n', '<leader>fb', tele_builtin.buffers)
-vim.keymap.set('n', '<leader>fh', tele_builtin.help_tags)
-vim.keymap.set('n', '<leader>f/', tele_builtin.current_buffer_fuzzy_find)
-vim.keymap.set('n', '<leader>gr', tele_builtin.lsp_references)
-vim.keymap.set('n', '<leader>gd', tele_builtin.lsp_definitions)
-vim.keymap.set('n', '<leader>ds', tele_builtin.lsp_document_symbols)
-vim.keymap.set('n', '<leader>ws', tele_builtin.lsp_workspace_symbols)
+local picker = require('snacks.picker')
+vim.keymap.set('n', '<leader>ff', picker.files)
+vim.keymap.set('n', '<leader>fg', picker.grep)
+vim.keymap.set('n', '<leader>fb', picker.buffers)
+vim.keymap.set('n', '<leader>fh', picker.help)
+vim.keymap.set('n', '<leader>f/', picker.lines)
+vim.keymap.set('n', '<leader>gr', picker.lsp_references)
+vim.keymap.set('n', '<leader>gd', picker.lsp_definitions)
+vim.keymap.set('n', '<leader>ds', picker.lsp_symbols)
+vim.keymap.set('n', '<leader>ws', picker.lsp_workspace_symbols)
 
 local nvimtree_api = require('nvim-tree.api')
 vim.keymap.set('n', '<C-n>', nvimtree_api.tree.toggle)
