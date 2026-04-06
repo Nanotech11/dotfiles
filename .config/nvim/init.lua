@@ -69,26 +69,46 @@ vim.pack.add({
     { src = 'https://github.com/mason-org/mason.nvim' },
     { src = 'https://github.com/neovim/nvim-lspconfig' },
     { src = 'https://github.com/nvim-mini/mini.nvim' },
-    { src = 'https://github.com/nvim-tree/nvim-tree.lua' },
     { src = 'https://github.com/nvim-treesitter/nvim-treesitter' },
     { src = 'https://github.com/rafamadriz/friendly-snippets' },
     { src = 'https://github.com/rbong/vim-flog' },
     { src = 'https://github.com/saghen/blink.cmp',               version = vim.version.range('1.*') },
     { src = 'https://github.com/tpope/vim-fugitive' },
 })
+
 vim.cmd.colorscheme('tokyonight-storm')
+
 vim.o.statusline = '%<%f %h%m%r%{FugitiveStatusline()}%=%-14.(%l,%c%V%) %P'
+
 require('mason').setup()
-require('mini.pairs').setup()
+require('mini.ai').setup()
+require('mini.cmdline').setup()
+-- require('mini.completion').setup()
+require('mini.cursorword').setup()
 require('mini.icons').setup()
+require('mini.jump').setup()
+require('mini.jump2d').setup()
+require('mini.pairs').setup()
+require('mini.snippets').setup()
 require('snacks').setup({
-    indent = { enabled = true },
+    explorer = { enabled = true },
+    input = { enabled = true },
     picker = {
         matcher = {
             frecency = true,
             sort_empty = true,
         },
         sources = {
+            explorer = {
+                hidden = true,
+                ignored = true,
+                follow = true,
+                exclude = {
+                    "**/.git/*",
+                    "**/.venv/*",
+                },
+                layout = { preset = "sidebar", preview = true },
+            },
             files = {
                 hidden = true,
                 ignored = true,
@@ -109,7 +129,9 @@ require('snacks').setup({
             },
         },
     },
+    scope = { enabled = true }
 })
+
 local ts_langs = {
     'asm',
     'bash',
@@ -139,10 +161,12 @@ vim.filetype.add({
     },
 })
 vim.treesitter.language.register('asm', 'asm')
+
 ---@type rainbow_delimiters.config
 vim.g.rainbow_delimiters = {
     whitelist = ts_langs,
 }
+
 require('gitsigns').setup({
     current_line_blame = true,
     on_attach = function(bufnr)
@@ -188,12 +212,6 @@ require('gitsigns').setup({
         end)
     end,
 })
-require('nvim-tree').setup({
-    on_attach = function(bufnr)
-        local nvimtree_api = require('nvim-tree.api')
-        nvimtree_api.map.on_attach.default(bufnr)
-    end,
-})
 
 -- LSP
 vim.lsp.config('lua_ls', {
@@ -208,6 +226,7 @@ vim.lsp.config('lua_ls', {
         },
     },
 })
+
 vim.lsp.enable({
     'asm_lsp',
     'basedpyright',
@@ -220,6 +239,7 @@ vim.lsp.enable({
     'ty',
     'zls',
 })
+
 vim.api.nvim_create_autocmd('BufWritePre', {
     group = vim.api.nvim_create_augroup('RuffAutoOrganize', { clear = true }),
     pattern = '*.py',
@@ -233,6 +253,7 @@ vim.api.nvim_create_autocmd('BufWritePre', {
         })
     end,
 })
+
 vim.diagnostic.config({
     update_in_insert = true,
     float = {
@@ -240,6 +261,7 @@ vim.diagnostic.config({
         source = true,
     },
 })
+
 vim.api.nvim_create_autocmd({ 'CursorMoved', 'InsertLeave' }, {
     callback = function()
         vim.diagnostic.open_float(nil, {
@@ -248,6 +270,7 @@ vim.api.nvim_create_autocmd({ 'CursorMoved', 'InsertLeave' }, {
         })
     end,
 })
+
 require('blink.cmp').setup({
     signature = {
         enabled = true,
@@ -283,6 +306,4 @@ vim.keymap.set('n', '<leader>gr', picker.lsp_references)
 vim.keymap.set('n', '<leader>gd', picker.lsp_definitions)
 vim.keymap.set('n', '<leader>ds', picker.lsp_symbols)
 vim.keymap.set('n', '<leader>ws', picker.lsp_workspace_symbols)
-
-local nvimtree_api = require('nvim-tree.api')
-vim.keymap.set('n', '<C-n>', nvimtree_api.tree.toggle)
+vim.keymap.set('n', '<leader>e', picker.explorer)
