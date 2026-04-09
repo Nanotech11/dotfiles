@@ -55,10 +55,12 @@ vim.api.nvim_create_autocmd('PackChanged', {
     callback = function(ev)
         local name, kind = ev.data.spec.name, ev.data.kind
         if name == 'nvim-treesitter' and kind == 'update' then
-            if not ev.data.active then vim.cmd.packadd('nvim-treesitter') end
+            if not ev.data.active then
+                vim.cmd.packadd('nvim-treesitter')
+            end
             vim.cmd('TSUpdate')
         end
-    end
+    end,
 })
 
 vim.pack.add({
@@ -72,7 +74,7 @@ vim.pack.add({
     { src = 'https://github.com/nvim-treesitter/nvim-treesitter' },
     { src = 'https://github.com/rafamadriz/friendly-snippets' },
     { src = 'https://github.com/rbong/vim-flog' },
-    { src = 'https://github.com/saghen/blink.cmp',               version = vim.version.range('1.*') },
+    { src = 'https://github.com/saghen/blink.cmp', version = vim.version.range('1.*') },
     { src = 'https://github.com/tpope/vim-fugitive' },
 })
 
@@ -104,18 +106,18 @@ require('snacks').setup({
                 ignored = true,
                 follow = true,
                 exclude = {
-                    "**/.git/*",
-                    "**/.venv/*",
+                    '**/.git/*',
+                    '**/.venv/*',
                 },
-                layout = { preset = "sidebar", preview = true },
+                layout = { preset = 'sidebar', preview = true },
             },
             files = {
                 hidden = true,
                 ignored = true,
                 follow = true,
                 exclude = {
-                    "**/.git/*",
-                    "**/.venv/*",
+                    '**/.git/*',
+                    '**/.venv/*',
                 },
             },
             grep = {
@@ -123,13 +125,14 @@ require('snacks').setup({
                 ignored = true,
                 follow = true,
                 exclude = {
-                    "**/.git/*",
-                    "**/.venv/*",
+                    '**/.git/*',
+                    '**/.venv/*',
                 },
             },
         },
     },
-    scope = { enabled = true }
+    scope = { enabled = true },
+    statuscolumn = { enabled = true },
 })
 
 local ts_langs = {
@@ -284,7 +287,7 @@ require('blink.cmp').setup({
         ['<Down>'] = { 'hide', 'fallback' },
         ['<Up>'] = { 'hide', 'fallback' },
         ['<Esc>'] = { 'hide', 'fallback' },
-    }
+    },
 })
 
 -- Keymap
