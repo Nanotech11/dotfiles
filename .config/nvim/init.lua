@@ -73,7 +73,6 @@ vim.pack.add({
     { src = 'https://github.com/nvim-mini/mini.nvim' },
     { src = 'https://github.com/nvim-treesitter/nvim-treesitter' },
     { src = 'https://github.com/rafamadriz/friendly-snippets' },
-    { src = 'https://github.com/rbong/vim-flog' },
     { src = 'https://github.com/saghen/blink.cmp', version = vim.version.range('1.*') },
     { src = 'https://github.com/tpope/vim-fugitive' },
 })
@@ -181,16 +180,16 @@ require('gitsigns').setup({
         end
 
         -- Navigation
-        map('n', ']c', function()
+        map('n', ']h', function()
             if vim.wo.diff then
-                vim.cmd.normal({ ']c', bang = true })
+                vim.cmd.normal({ ']h', bang = true })
             else
                 gs.nav_hunk('next')
             end
         end)
-        map('n', '[c', function()
+        map('n', '[h', function()
             if vim.wo.diff then
-                vim.cmd.normal({ '[c', bang = true })
+                vim.cmd.normal({ '[h', bang = true })
             else
                 gs.nav_hunk('prev')
             end
@@ -310,3 +309,4 @@ vim.keymap.set('n', '<leader>gd', picker.lsp_definitions)
 vim.keymap.set('n', '<leader>ds', picker.lsp_symbols)
 vim.keymap.set('n', '<leader>ws', picker.lsp_workspace_symbols)
 vim.keymap.set('n', '<leader>e', picker.explorer)
+vim.keymap.set('n', '<leader>he', require('snacks.lazygit').open)

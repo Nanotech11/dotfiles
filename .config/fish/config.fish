@@ -1,5 +1,5 @@
 fish_add_path /snap/nvim/current/usr/bin
-fish_add_path /usr/local/go/bin
+fish_add_path ~/go/bin
 fish_add_path ~/.local/bin
 
 set -g fish_greeting
