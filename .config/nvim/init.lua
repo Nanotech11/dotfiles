@@ -67,30 +67,39 @@ vim.pack.add({
     { src = 'https://github.com/folke/snacks.nvim' },
     { src = 'https://github.com/folke/tokyonight.nvim' },
     { src = 'https://github.com/hiphish/rainbow-delimiters.nvim' },
-    { src = 'https://github.com/lewis6991/gitsigns.nvim' },
     { src = 'https://github.com/mason-org/mason.nvim' },
     { src = 'https://github.com/neovim/nvim-lspconfig' },
     { src = 'https://github.com/nvim-mini/mini.nvim' },
     { src = 'https://github.com/nvim-treesitter/nvim-treesitter' },
     { src = 'https://github.com/rafamadriz/friendly-snippets' },
     { src = 'https://github.com/saghen/blink.cmp', version = vim.version.range('1.*') },
-    { src = 'https://github.com/tpope/vim-fugitive' },
 })
 
 vim.cmd.colorscheme('tokyonight-storm')
-
-vim.o.statusline = '%<%f %h%m%r%{FugitiveStatusline()}%=%-14.(%l,%c%V%) %P'
 
 require('mason').setup()
 require('mini.ai').setup()
 require('mini.cmdline').setup()
 -- require('mini.completion').setup()
 require('mini.cursorword').setup()
+require('mini.diff').setup({
+    mappings = {
+        apply = '<leader>hs',
+        reset = '<leader>hr',
+        textobject = 'gh',
+    },
+    options = {
+        wrap_goto = true,
+    },
+})
+require('mini.git').setup()
 require('mini.icons').setup()
 require('mini.jump').setup()
 require('mini.jump2d').setup()
 require('mini.pairs').setup()
 require('mini.snippets').setup()
+require('mini.statusline').setup()
+
 require('snacks').setup({
     explorer = { enabled = true },
     input = { enabled = true },
@@ -168,52 +177,6 @@ vim.treesitter.language.register('asm', 'asm')
 vim.g.rainbow_delimiters = {
     whitelist = ts_langs,
 }
-
-require('gitsigns').setup({
-    current_line_blame = true,
-    on_attach = function(bufnr)
-        local gs = require('gitsigns')
-        local function map(mode, l, r, opts)
-            opts = opts or {}
-            opts.buffer = bufnr
-            vim.keymap.set(mode, l, r, opts)
-        end
-
-        -- Navigation
-        map('n', ']h', function()
-            if vim.wo.diff then
-                vim.cmd.normal({ ']h', bang = true })
-            else
-                gs.nav_hunk('next')
-            end
-        end)
-        map('n', '[h', function()
-            if vim.wo.diff then
-                vim.cmd.normal({ '[h', bang = true })
-            else
-                gs.nav_hunk('prev')
-            end
-        end)
-
-        -- Actions
-        map('n', '<leader>hs', gs.stage_hunk)
-        map('n', '<leader>hr', gs.reset_hunk)
-        map('v', '<leader>hs', function()
-            gs.stage_hunk({ vim.fn.line('.'), vim.fn.line('v') })
-        end)
-        map('v', '<leader>hr', function()
-            gs.reset_hunk({ vim.fn.line('.'), vim.fn.line('v') })
-        end)
-        map('n', '<leader>hS', gs.stage_buffer)
-        map('n', '<leader>hR', gs.reset_buffer)
-        map('n', '<leader>hp', gs.preview_hunk)
-        map('n', '<leader>hi', gs.preview_hunk_inline)
-        map('n', '<leader>hd', gs.diffthis)
-        map('n', '<leader>hD', function()
-            gs.diffthis('~')
-        end)
-    end,
-})
 
 -- LSP
 vim.lsp.config('lua_ls', {
@@ -298,15 +261,42 @@ vim.keymap.set('n', '<leader>lf', vim.lsp.buf.format)
 vim.keymap.set('v', 'J', ":m '>+1<CR>gv=gv")
 vim.keymap.set('v', 'K', ":m '<-2<CR>gv=gv")
 
-local picker = require('snacks.picker')
-vim.keymap.set('n', '<leader>ff', picker.files)
-vim.keymap.set('n', '<leader>fg', picker.grep)
-vim.keymap.set('n', '<leader>fb', picker.buffers)
-vim.keymap.set('n', '<leader>fh', picker.help)
-vim.keymap.set('n', '<leader>f/', picker.lines)
-vim.keymap.set('n', '<leader>gr', picker.lsp_references)
-vim.keymap.set('n', '<leader>gd', picker.lsp_definitions)
-vim.keymap.set('n', '<leader>ds', picker.lsp_symbols)
-vim.keymap.set('n', '<leader>ws', picker.lsp_workspace_symbols)
-vim.keymap.set('n', '<leader>e', picker.explorer)
-vim.keymap.set('n', '<leader>he', require('snacks.lazygit').open)
+vim.keymap.set('n', '<leader>ff', function()
+    Snacks.picker.files()
+end)
+vim.keymap.set('n', '<leader>fg', function()
+    Snacks.picker.grep()
+end)
+vim.keymap.set('n', '<leader>fb', function()
+    Snacks.picker.buffers()
+end)
+vim.keymap.set('n', '<leader>fh', function()
+    Snacks.picker.help()
+end)
+vim.keymap.set('n', '<leader>f/', function()
+    Snacks.picker.lines()
+end)
+vim.keymap.set('n', '<leader>gr', function()
+    Snacks.picker.lsp_references()
+end)
+vim.keymap.set('n', '<leader>gd', function()
+    Snacks.picker.lsp_definitions()
+end)
+vim.keymap.set('n', '<leader>ds', function()
+    Snacks.picker.lsp_symbols()
+end)
+vim.keymap.set('n', '<leader>ws', function()
+    Snacks.picker.lsp_workspace_symbols()
+end)
+vim.keymap.set('n', '<leader>e', function()
+    Snacks.explorer()
+end)
+vim.keymap.set('n', '<leader>he', function()
+    Snacks.lazygit.open()
+end)
+vim.keymap.set('n', '<leader>hl', function()
+    Snacks.git.blame_line()
+end)
+vim.keymap.set('n', '<leader>hp', function()
+    MiniDiff.toggle_overlay(0)
+end)
