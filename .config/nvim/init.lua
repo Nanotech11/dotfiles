@@ -86,7 +86,6 @@ require('mini.diff').setup({
     mappings = {
         apply = '<leader>hs',
         reset = '<leader>hr',
-        textobject = 'gh',
     },
     options = {
         wrap_goto = true,
@@ -140,7 +139,6 @@ require('snacks').setup({
         },
     },
     scope = { enabled = true },
-    statuscolumn = { enabled = true },
 })
 
 local ts_langs = {
