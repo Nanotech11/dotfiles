@@ -1,7 +1,5 @@
 vim.loader.enable()
 
-vim.g.loaded_netrw = 1
-vim.g.loaded_netrwPlugin = 1
 vim.g.mapleader = ' '
 
 -- QoL
@@ -15,39 +13,30 @@ vim.o.sidescrolloff = 8
 -- Indents
 vim.o.autoindent = true
 vim.o.expandtab = true
-vim.o.smarttab = true
 vim.o.shiftwidth = 4
-vim.o.softtabstop = 4
-vim.o.tabstop = 4
+vim.o.softtabstop = -1
 
 -- Search
 vim.o.hlsearch = false
 vim.o.ignorecase = true
-vim.o.incsearch = true
 vim.o.smartcase = true
 
 -- Visuals
-vim.o.ruler = true
 vim.o.showmatch = true
+vim.o.showmode = false
 vim.o.termguicolors = true
 vim.o.colorcolumn = '121'
 vim.o.matchtime = 1
 vim.o.signcolumn = 'yes'
-vim.o.winborder = 'rounded'
+vim.o.winborder = 'single'
 
 -- Files
-vim.o.autoread = true
-vim.o.autowrite = false
 vim.o.swapfile = false
 vim.o.undofile = true
 
 -- Behavior
-vim.o.autochdir = false
-vim.o.hidden = true
-vim.o.modifiable = true
 vim.o.splitbelow = true
 vim.o.splitright = true
-vim.o.encoding = 'UTF-8'
 vim.o.mouse = 'a'
 
 -- Plugins
