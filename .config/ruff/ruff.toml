@@ -1,4 +1,11 @@
 line-length = 120
 
+[lint]
+select = ['ALL']
+ignore = ['INP', 'D', 'PTH123', 'T20']
+
+[lint.flake8-quotes]
+inline-quotes = 'single'
+
 [format]
 quote-style = 'single'

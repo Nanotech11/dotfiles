@@ -69,7 +69,6 @@ vim.cmd.colorscheme('tokyonight-storm')
 require('mason').setup()
 require('mini.ai').setup()
 require('mini.cmdline').setup()
--- require('mini.completion').setup()
 require('mini.cursorword').setup()
 require('mini.diff').setup({
     mappings = {
@@ -86,6 +85,7 @@ require('mini.jump').setup()
 require('mini.jump2d').setup()
 require('mini.pairs').setup()
 require('mini.snippets').setup()
+require('mini.splitjoin').setup()
 require('mini.statusline').setup()
 
 require('snacks').setup({
