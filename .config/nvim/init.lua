@@ -61,7 +61,7 @@ vim.pack.add({
     { src = 'https://github.com/nvim-mini/mini.nvim' },
     { src = 'https://github.com/nvim-treesitter/nvim-treesitter' },
     { src = 'https://github.com/rafamadriz/friendly-snippets' },
-    { src = 'https://github.com/saghen/blink.cmp', version = vim.version.range('1.*') },
+    { src = 'https://github.com/saghen/blink.cmp',               version = vim.version.range('1.*') },
 })
 
 vim.cmd.colorscheme('tokyonight-storm')
@@ -247,6 +247,8 @@ vim.keymap.set('n', '<leader>o', '<cmd>update | source<CR>')
 vim.keymap.set('n', '<leader>lf', vim.lsp.buf.format)
 vim.keymap.set('v', 'J', ":m '>+1<CR>gv=gv")
 vim.keymap.set('v', 'K', ":m '<-2<CR>gv=gv")
+vim.keymap.set('n', '<leader>hs', function() return MiniDiff.operator('apply') .. 'gh' end, { expr = true, remap = true })
+vim.keymap.set('n', '<leader>hr', function() return MiniDiff.operator('reset') .. 'gh' end, { expr = true, remap = true })
 
 vim.keymap.set('n', '<leader>ff', function()
     Snacks.picker.files()
