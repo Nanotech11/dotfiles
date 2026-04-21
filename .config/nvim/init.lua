@@ -61,7 +61,7 @@ vim.pack.add({
     { src = 'https://github.com/nvim-mini/mini.nvim' },
     { src = 'https://github.com/nvim-treesitter/nvim-treesitter' },
     { src = 'https://github.com/rafamadriz/friendly-snippets' },
-    { src = 'https://github.com/saghen/blink.cmp',               version = vim.version.range('1.*') },
+    { src = 'https://github.com/saghen/blink.cmp', version = vim.version.range('1.*') },
 })
 
 vim.cmd.colorscheme('tokyonight-storm')
@@ -89,8 +89,10 @@ require('mini.splitjoin').setup()
 require('mini.statusline').setup()
 
 require('snacks').setup({
+    bigfile = { enabled = true },
     explorer = { enabled = true },
     input = { enabled = true },
+    notifier = { enabled = true },
     picker = {
         matcher = {
             frecency = true,
@@ -105,7 +107,7 @@ require('snacks').setup({
                     '**/.git/*',
                     '**/.venv/*',
                 },
-                layout = { preset = 'sidebar', preview = true },
+                layout = { preview = true },
             },
             files = {
                 hidden = true,
@@ -127,7 +129,9 @@ require('snacks').setup({
             },
         },
     },
+    quickfile = { enabled = true },
     scope = { enabled = true },
+    words = { enabled = true },
 })
 
 local ts_langs = {
@@ -149,9 +153,7 @@ local ts_langs = {
 }
 require('nvim-treesitter').install(ts_langs)
 vim.api.nvim_create_autocmd('FileType', {
-    callback = function()
-        pcall(vim.treesitter.start)
-    end,
+    callback = function() pcall(vim.treesitter.start) end,
 })
 vim.filetype.add({
     extension = {
@@ -243,49 +245,41 @@ require('blink.cmp').setup({
 vim.keymap.set('i', 'jk', '<C-[>')
 vim.keymap.set('n', '<leader>w', '<cmd>write<CR>')
 vim.keymap.set('n', '<leader>q', '<cmd>quit<CR>')
-vim.keymap.set('n', '<leader>o', '<cmd>update | source<CR>')
 vim.keymap.set('n', '<leader>lf', vim.lsp.buf.format)
 vim.keymap.set('v', 'J', ":m '>+1<CR>gv=gv")
 vim.keymap.set('v', 'K', ":m '<-2<CR>gv=gv")
-vim.keymap.set('n', '<leader>hs', function() return MiniDiff.operator('apply') .. 'gh' end, { expr = true, remap = true })
-vim.keymap.set('n', '<leader>hr', function() return MiniDiff.operator('reset') .. 'gh' end, { expr = true, remap = true })
 
-vim.keymap.set('n', '<leader>ff', function()
-    Snacks.picker.files()
-end)
-vim.keymap.set('n', '<leader>fg', function()
-    Snacks.picker.grep()
-end)
-vim.keymap.set('n', '<leader>fb', function()
-    Snacks.picker.buffers()
-end)
-vim.keymap.set('n', '<leader>fh', function()
-    Snacks.picker.help()
-end)
-vim.keymap.set('n', '<leader>f/', function()
-    Snacks.picker.lines()
-end)
-vim.keymap.set('n', '<leader>gr', function()
-    Snacks.picker.lsp_references()
-end)
-vim.keymap.set('n', '<leader>gd', function()
-    Snacks.picker.lsp_definitions()
-end)
-vim.keymap.set('n', '<leader>ds', function()
-    Snacks.picker.lsp_symbols()
-end)
-vim.keymap.set('n', '<leader>ws', function()
-    Snacks.picker.lsp_workspace_symbols()
-end)
-vim.keymap.set('n', '<leader>e', function()
-    Snacks.explorer()
-end)
-vim.keymap.set('n', '<leader>he', function()
-    Snacks.lazygit.open()
-end)
-vim.keymap.set('n', '<leader>hl', function()
-    Snacks.git.blame_line()
-end)
-vim.keymap.set('n', '<leader>hp', function()
-    MiniDiff.toggle_overlay(0)
-end)
+vim.keymap.set('n', '<leader>ff', function() Snacks.picker.files() end)
+vim.keymap.set('n', '<leader>fg', function() Snacks.picker.grep() end)
+vim.keymap.set('n', '<leader>fb', function() Snacks.picker.buffers() end)
+vim.keymap.set('n', '<leader>fh', function() Snacks.picker.help() end)
+vim.keymap.set('n', '<leader>f/', function() Snacks.picker.lines() end)
+vim.keymap.set('n', '<leader>gr', function() Snacks.picker.lsp_references() end)
+vim.keymap.set('n', '<leader>gd', function() Snacks.picker.lsp_definitions() end)
+vim.keymap.set('n', '<leader>ds', function() Snacks.picker.lsp_symbols() end)
+vim.keymap.set('n', '<leader>ws', function() Snacks.picker.lsp_workspace_symbols() end)
+vim.keymap.set('n', '<leader>e', function() Snacks.explorer() end)
+vim.keymap.set('n', '<leader>gg', function() Snacks.lazygit.open() end)
+vim.keymap.set('n', '<leader>gl', function() Snacks.lazygit.log() end)
+vim.keymap.set('n', '<leader>gb', function() Snacks.git.blame_line() end)
+vim.keymap.set('n', '<leader>gB', function() Snacks.gitbrowse() end)
+vim.keymap.set('n', '<leader>n', function() Snacks.notifier.show_history() end)
+vim.keymap.set('n', '<leader>un', function() Snacks.notifier.hide() end)
+vim.keymap.set('n', '<leader>bd', function() Snacks.bufdelete() end)
+vim.keymap.set('n', '<leader>cR', function() Snacks.rename.rename_file() end)
+vim.keymap.set('n', ']]', function() Snacks.words.jump(vim.v.count1) end)
+vim.keymap.set('n', '[[', function() Snacks.words.jump(-vim.v.count1) end)
+
+vim.keymap.set('n', '<leader>hp', function() MiniDiff.toggle_overlay(0) end)
+vim.keymap.set(
+    'n',
+    '<leader>hs',
+    function() return MiniDiff.operator('apply') .. 'gh' end,
+    { expr = true, remap = true }
+)
+vim.keymap.set(
+    'n',
+    '<leader>hr',
+    function() return MiniDiff.operator('reset') .. 'gh' end,
+    { expr = true, remap = true }
+)
