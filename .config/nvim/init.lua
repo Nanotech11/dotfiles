@@ -37,6 +37,7 @@ vim.o.undofile = true
 -- Behavior
 vim.o.splitbelow = true
 vim.o.splitright = true
+vim.o.maxmempattern = 2000000
 vim.o.mouse = 'a'
 
 -- Plugins
