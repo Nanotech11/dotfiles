@@ -54,8 +54,14 @@ vim.api.nvim_create_autocmd('PackChanged', {
 })
 
 vim.pack.add({
-    { src = 'https://github.com/folke/snacks.nvim' },
+    -- Colorschemes
+    { src = 'https://github.com/catppuccin/nvim' },
+    { src = 'https://github.com/ellisonleao/gruvbox.nvim' },
     { src = 'https://github.com/folke/tokyonight.nvim' },
+    { src = 'https://github.com/navarasu/onedark.nvim' },
+    { src = 'https://github.com/rebelot/kanagawa.nvim' },
+    -- Plugins
+    { src = 'https://github.com/folke/snacks.nvim' },
     { src = 'https://github.com/hiphish/rainbow-delimiters.nvim' },
     { src = 'https://github.com/mason-org/mason.nvim' },
     { src = 'https://github.com/neovim/nvim-lspconfig' },
