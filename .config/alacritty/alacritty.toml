@@ -1,0 +1,19 @@
+[cursor]
+blink_timeout = 0
+style = {
+    blinking = 'Always'
+}
+
+[font]
+size = 12
+
+[general]
+import = [
+    './alacritty-theme/themes/kitty.toml'
+]
+
+[mouse]
+hide_when_typing = true
+
+# [terminal]
+# shell = 'fish' # Only needed if chsh does not work

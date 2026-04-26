@@ -43,7 +43,8 @@ bindsym $mod+Shift+q kill
 # Start dmenu (a program launcher)
 #bindsym $sup+d exec --no-startup-id dmenu_run
 # A more modern dmenu replacement is rofi:
-bindsym $sup+d exec "rofi -modi drun,run -show drun"
+bindsym $sup+d exec "rofi -show drun"
+bindsym $sup+r exec "rofi -show run"
 
 # Change focus
 bindsym $mod+h focus left
