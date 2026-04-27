@@ -152,6 +152,7 @@ local ts_langs = {
     'lua',
     'make',
     'python',
+    'regex',
     'rust',
     'toml',
     'xml',

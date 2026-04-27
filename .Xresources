@@ -1,5 +1,5 @@
 XTerm*cursorBlink: true
-XTerm*faceName: DejavuSansM Nerd Font
+XTerm*faceName: DejaVuSansM Nerd Font Mono
 XTerm*faceSize: 12
 
 XTerm.termName: xterm-256color
