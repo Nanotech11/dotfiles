@@ -1,0 +1,17 @@
+# Kitty colorscheme
+black = #000000
+red = #cc0403
+green = #19cb00
+yellow = #cecb00
+blue = #0d73cc
+magenta = #cb1ed1
+cyan = #0dcdcd
+white = #dddddd
+hl_black = #767676
+hl_red = #f2201f
+hl_green = #23fd00
+hl_yellow = #fffd00
+hl_blue = #1a8fff
+hl_magenta = #fd28ff
+hl_cyan = #14ffff
+hl_white = #ffffff
