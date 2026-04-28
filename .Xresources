@@ -1,11 +1,31 @@
-XTerm*cursorBlink: true
+*background: #000000
+*foreground: #dddddd
+*pointerColorForeground: #111111
+*pointerColorBackground: #cccccc
+*color0: #000000
+*color1: #cc0403
+*color2: #19cb00
+*color3: #cecb00
+*color4: #0d73cc
+*color5: #cb1ed1
+*color6: #0dcdcd
+*color7: #dddddd
+*color8: #767676
+*color9: #f2201f
+*color10: #23fd00
+*color11: #fffd00
+*color12: #1a8fff
+*color13: #fd28ff
+*color14: #14ffff
+*color15: #ffffff
+
 XTerm*faceName: DejaVuSansM Nerd Font Mono
 XTerm*faceSize: 12
+XTerm*saveLines: 10000
 
 XTerm.termName: xterm-256color
 XTerm.vt100.locale: false
 XTerm.vt100.metaSendsEscape: true
-XTerm.vt100.reverseVideo: true
 XTerm.vt100.selectToClipboard: true
 XTerm.vt100.translations: #override \n\
     Ctrl Shift <Key>C: copy-selection(CLIPBOARD) \n\

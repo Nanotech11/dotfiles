@@ -1,9 +1,3 @@
-[cursor]
-blink_timeout = 0
-style = {
-    blinking = 'Always'
-}
-
 [font]
 size = 12
 

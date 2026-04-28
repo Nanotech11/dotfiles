@@ -55,7 +55,6 @@ vim.api.nvim_create_autocmd('PackChanged', {
 
 vim.pack.add({
     -- Colorschemes
-    { src = 'https://github.com/catppuccin/nvim' },
     { src = 'https://github.com/ellisonleao/gruvbox.nvim' },
     { src = 'https://github.com/folke/tokyonight.nvim' },
     { src = 'https://github.com/navarasu/onedark.nvim' },
@@ -89,7 +88,6 @@ require('mini.diff').setup({
 require('mini.git').setup()
 require('mini.icons').setup()
 require('mini.jump').setup()
-require('mini.jump2d').setup()
 require('mini.pairs').setup()
 require('mini.snippets').setup()
 require('mini.splitjoin').setup()
