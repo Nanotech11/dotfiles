@@ -1,8 +1,8 @@
 ! Kitty colorscheme
 *background: #000000
 *foreground: #dddddd
-*pointerColorForeground: #111111
 *pointerColorBackground: #cccccc
+*pointerColorForeground: #111111
 *color0: #000000
 *color1: #cc0403
 *color2: #19cb00
