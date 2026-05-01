@@ -254,6 +254,9 @@ vim.keymap.set('n', '<leader>q', '<cmd>quit<CR>')
 vim.keymap.set('n', '<leader>lf', vim.lsp.buf.format)
 vim.keymap.set('v', 'J', ":m '>+1<CR>gv=gv")
 vim.keymap.set('v', 'K', ":m '<-2<CR>gv=gv")
+for _, op in ipairs({'c', 'C', 'd', 'D', 'p', 'P', 's', 'S', 'x', 'X', 'y', 'Y'}) do
+    vim.keymap.set({'n', 'v'}, '<leader>' .. op, '"+' .. op)
+end
 
 vim.keymap.set('n', '<leader>ff', function() Snacks.picker.files() end)
 vim.keymap.set('n', '<leader>fg', function() Snacks.picker.grep() end)
