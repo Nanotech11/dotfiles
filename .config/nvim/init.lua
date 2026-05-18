@@ -70,7 +70,11 @@ vim.pack.add({
     { src = 'https://github.com/saghen/blink.cmp', version = vim.version.range('1.*') },
 })
 
-vim.cmd.colorscheme('tokyonight-storm')
+require('onedark').setup({
+    style = 'cool',
+    toggle_style_key = '<leader>ts',
+})
+vim.cmd.colorscheme('onedark')
 
 require('mason').setup()
 require('mini.ai').setup()
@@ -92,6 +96,7 @@ require('mini.pairs').setup()
 require('mini.snippets').setup()
 require('mini.splitjoin').setup()
 require('mini.statusline').setup()
+require('mini.surround').setup()
 
 require('snacks').setup({
     bigfile = { enabled = true },
@@ -254,8 +259,8 @@ vim.keymap.set('n', '<leader>q', '<cmd>quit<CR>')
 vim.keymap.set('n', '<leader>lf', vim.lsp.buf.format)
 vim.keymap.set('v', 'J', ":m '>+1<CR>gv=gv")
 vim.keymap.set('v', 'K', ":m '<-2<CR>gv=gv")
-for _, op in ipairs({'c', 'C', 'd', 'D', 'p', 'P', 's', 'S', 'x', 'X', 'y', 'Y'}) do
-    vim.keymap.set({'n', 'v'}, '<leader>' .. op, '"+' .. op)
+for _, op in ipairs({ 'c', 'C', 'd', 'D', 'p', 'P', 's', 'S', 'x', 'X', 'y', 'Y' }) do
+    vim.keymap.set({ 'n', 'v' }, '<leader>' .. op, '"+' .. op)
 end
 
 vim.keymap.set('n', '<leader>ff', function() Snacks.picker.files() end)
