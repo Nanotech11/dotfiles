@@ -70,11 +70,12 @@ vim.pack.add({
     { src = 'https://github.com/saghen/blink.cmp', version = vim.version.range('1.*') },
 })
 
-require('onedark').setup({
-    style = 'cool',
-    toggle_style_key = '<leader>ts',
-})
-vim.cmd.colorscheme('onedark')
+vim.cmd.colorscheme('kanagawa-wave')
+-- require('onedark').setup({
+--     style = 'cool',
+--     toggle_style_key = '<leader>ts',
+-- })
+-- vim.cmd.colorscheme('onedark')
 
 require('mason').setup()
 require('mini.ai').setup()
@@ -92,7 +93,9 @@ require('mini.diff').setup({
 require('mini.git').setup()
 require('mini.icons').setup()
 require('mini.jump').setup()
-require('mini.pairs').setup()
+require('mini.pairs').setup({
+    modes = { command = true },
+})
 require('mini.snippets').setup()
 require('mini.splitjoin').setup()
 require('mini.statusline').setup()
@@ -154,6 +157,8 @@ local ts_langs = {
     'json',
     'lua',
     'make',
+    'markdown',
+    'markdown_inline',
     'python',
     'regex',
     'rust',
@@ -270,6 +275,8 @@ vim.keymap.set('n', '<leader>fh', function() Snacks.picker.help() end)
 vim.keymap.set('n', '<leader>f/', function() Snacks.picker.lines() end)
 vim.keymap.set('n', '<leader>gr', function() Snacks.picker.lsp_references() end)
 vim.keymap.set('n', '<leader>gd', function() Snacks.picker.lsp_definitions() end)
+vim.keymap.set('n', '<leader>gD', function() Snacks.picker.lsp_declarations() end)
+vim.keymap.set('n', '<leader>gi', function() Snacks.picker.lsp_implementations() end)
 vim.keymap.set('n', '<leader>ds', function() Snacks.picker.lsp_symbols() end)
 vim.keymap.set('n', '<leader>ws', function() Snacks.picker.lsp_workspace_symbols() end)
 vim.keymap.set('n', '<leader>e', function() Snacks.explorer() end)
