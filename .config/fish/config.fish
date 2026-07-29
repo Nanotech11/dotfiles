@@ -5,6 +5,7 @@ fish_add_path ~/.local/bin
 set -g fish_greeting
 
 zoxide init fish --cmd cd | source
+starship init fish | source
 
 abbr -a c clear
 abbr -a cd.. cd ..
