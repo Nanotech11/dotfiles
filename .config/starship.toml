@@ -19,9 +19,15 @@ format = '[$branch ]($style)'
 [git_status]
 disabled = true
 
+[package]
+disabled = true
+
 [python]
 format = '[${pyenv_prefix}(\($virtualenv\) )]($style)'
 style = 'bold blue'
+
+[rust]
+disabled = true
 
 [status]
 disabled = false
