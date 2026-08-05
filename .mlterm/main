@@ -1,9 +1,0 @@
-# Kitty colorscheme
-bg_color = #000000
-fg_color = #dddddd
-cursor_bg_color = #cccccc
-cursor_fg_color = #111111
-
-scrollbar_mode = none
-use_clipboard = true
-vt_color_mode = true

@@ -1,7 +1,6 @@
 command_timeout = 1000
 scan_timeout = 1000
-format = '$python$all$line_break$character'
-right_format = '$time'
+format = '$python$all$fill$time$line_break$character'
 
 [c]
 disabled = true
@@ -12,6 +11,9 @@ disabled = true
 [directory]
 truncate_to_repo = false
 truncation_length = 0
+
+[fill]
+symbol = ' '
 
 [git_branch]
 format = '[$branch ]($style)'
@@ -39,4 +41,5 @@ format = '[$time]($style)'
 
 [username]
 format = '[$user ]($style)'
+show_always = true
 style_user = 'bold green'
