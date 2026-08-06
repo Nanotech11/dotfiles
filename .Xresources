@@ -25,12 +25,11 @@ Xcursor.size: 24
 Xcursor.theme: phinger-cursors
 
 ! XTerm config
-XTerm*faceNameDoublesize: Noto Color Emoji
-XTerm*faceName: DejaVuSansM Nerd Font Mono
+XTerm*faceName: monospace
 XTerm*faceSize: 12
 XTerm.termName: xterm-256color
 XTerm.vt100.boldColors: false
-XTerm.vt100.locale: false
+XTerm.vt100.locale: true
 XTerm.vt100.metaSendsEscape: true
 XTerm.vt100.selectToClipboard: true
 XTerm.vt100.translations: #override \n\
@@ -39,7 +38,7 @@ XTerm.vt100.translations: #override \n\
 XTerm.vt100.utf8: true
 
 ! URxvt config
-URxvt.font: xft:DejaVuSansM Nerd Font Mono:size=12
+URxvt.font: xft:FiraMono Nerd Font Mono:size=12
 URxvt.geometry: 200x200
 URxvt.intensityStyles: false
 URxvt.iso14755: false
@@ -49,8 +48,3 @@ URxvt.perl-ext-common: default,selection-to-clipboard
 URxvt.keysym.Shift-Control-C: selection-to-clipboard:copy
 URxvt.keysym.Shift-Control-V: selection-to-clipboard:paste
 URxvt.scrollBar: false
-
-! Zutty config
-Zutty.boldColors: false
-Zutty.font: DejaVuSansMNerdFontMono-Regular
-Zutty.fontsize: 16
